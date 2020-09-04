@@ -19,26 +19,45 @@ const mapDispatchToProps = {
 };
 
 class App extends React.Component {
-  
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      index: 0,
+    };
+  }
+
   addPeople() {
-    this.props.pushRow("saibamen");
-  } 
-  
+    this.props.pushRow("New entry");
+  }
+
   editPeople() {
-    this.props.editRow({ index: 2 , value: "Nappa"});
+    this.props.editRow({ index: this.state.index, value: "Edited entry" });
+  }
+
+  handleIndex(e) {
+    this.setState({
+      index: parseInt(e.target.value),
+    });
   }
 
   render() {
     return (
       <div className="App">
         <input
-          value={"Capsule"}
+          value={"Push"}
           type="button"
           onClick={this.addPeople.bind(this)}
         />
-        
+
         <input
-          value={"Ship"}
+          id="index"
+          type="number"
+          value={this.state.index}
+          onChange={this.handleIndex.bind(this)}
+        />
+        <input
+          value={"Edit"}
           type="button"
           onClick={this.editPeople.bind(this)}
         />
@@ -51,5 +70,5 @@ class App extends React.Component {
 }
 
 // connect is needed to access and bind common states and actions
-// if we don't provide connect, component will not re-render on store changes. 
+// if we don't provide connect, component will not re-render on store changes.
 export default connect(mapStateToProps, mapDispatchToProps)(App);
